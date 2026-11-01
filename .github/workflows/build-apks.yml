@@ -1,5 +1,5 @@
 
-name: Build Samsung Video APKs
+name: Crear APKs de Samsung Video
 
 on:
   workflow_dispatch:
@@ -25,10 +25,12 @@ jobs:
 
       - name: Preparar Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Instalar SDK
         run: |
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Extraer proyecto
         run: |
