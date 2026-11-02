@@ -34,7 +34,7 @@ jobs:
 
       - name: Extraer proyecto
         run: |
-          unzip -q SamsungVideo_Desde_Cero_Base.zip -d proyecto
+          unzip -q SamsungVideo_Proyecto_Completo_ENTREGA.zip -d proyecto
 
       - name: Compilar Classic y Ultra
         working-directory: proyecto
