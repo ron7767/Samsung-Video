@@ -1,15 +1,15 @@
-
-name: Crear APKs de Samsung Video
+name: Compilar Samsung Video
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
+    name: Crear APK de Samsung Video
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar proyecto
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
       - name: Preparar Java
@@ -28,24 +28,29 @@ jobs:
         with:
           packages: platform-tools
 
-      - name: Instalar SDK
+      - name: Instalar plataformas Android
         run: |
           sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Extraer proyecto
+      - name: Extraer proyecto Samsung Video
         run: |
-          unzip -q SamsungVideo_Proyecto_Completo_ENTREGA.zip -d proyecto
+          unzip -q SamsungVideo_UNICO_Premium.zip -d proyecto
 
-      - name: Compilar Classic y Ultra
+      - name: Verificar estructura del proyecto
+        run: |
+          test -f proyecto/settings.gradle.kts
+          test -f proyecto/build.gradle.kts
+          test -f proyecto/app/build.gradle.kts
+
+      - name: Compilar Samsung Video
         working-directory: proyecto
         run: |
-          gradle assembleClassicDebug assembleUltraDebug
+          gradle assembleDebug
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
         with:
-          name: Samsung-Video-APKs
-          path: |
-            proyecto/app/build/outputs/apk/classic/debug/*.apk
-            proyecto/app/build/outputs/apk/ultra/debug/*.apk
+          name: Samsung-Video
+          path: proyecto/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+          retention-days: 14
