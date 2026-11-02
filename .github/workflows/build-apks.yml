@@ -25,15 +25,19 @@ jobs:
 
       - name: Preparar Android SDK
         uses: android-actions/setup-android@v3
-        with:
-        packages: platform-tools
 
-      - name: Instalar Android SDK
+      - name: Instalar componentes Android
         run: |
-          sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Verificar ZIP
+        run: |
+          test -f SamsungVideo_PROFESIONAL.zip
+          unzip -t SamsungVideo_PROFESIONAL.zip
 
       - name: Extraer proyecto
         run: |
+          mkdir proyecto
           unzip -q SamsungVideo_PROFESIONAL.zip -d proyecto
 
       - name: Verificar proyecto
@@ -52,3 +56,5 @@ jobs:
           name: Samsung-Video
           path: proyecto/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+          retention-days: 14
+
